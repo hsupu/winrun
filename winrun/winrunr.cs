@@ -8,13 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Permissions;
-using Microsoft.Win32;
 using System.IO;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace winrun
 {
-    [RegistryPermissionAttribute(SecurityAction.PermitOnly, Read = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths")]
-    [FileIOPermissionAttribute(SecurityAction.PermitOnly, AllFiles = FileIOPermissionAccess.AllAccess)]
+    [RegistryPermissionAttribute(SecurityAction.Assert)]
+    // [RegistryPermissionAttribute(SecurityAction.PermitOnly, Read = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths")]
+    // [FileIOPermissionAttribute(SecurityAction.Assert)]
+    // [SecurityPermissionAttribute(SecurityAction.Assert)]
     public partial class winrunr : Form
     {
         RegistryKey regApps = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths");
@@ -30,18 +33,25 @@ namespace winrun
         private void btnReload_Click(object sender, EventArgs e)
         {
             string[] strApps = regApps.GetSubKeyNames();
+            RegistryKey regApp;
+            int imgIndex;
+            Object objRegValue;
+            string filePath;
+            Icon icon;
             foreach (string s in strApps)
             {
-                RegistryKey regApp = regApps.OpenSubKey(s);
-                int imgIndex;
-                string filePath = regApp.GetValue("").ToString();
-                if (File.Exists(filePath))
-                {
-                    Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);
-                    imglstApps.Images.Add(icon);
-                    imgIndex = imglstApps.Images.Count;
+                regApp = regApps.OpenSubKey(s);
+                objRegValue = regApp.GetValue(null);
+                if (objRegValue is string) {
+                    filePath = objRegValue.ToString();
+                    if (File.Exists(filePath))
+                    {
+                        icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);// GetSystemIcon.GetIconByFileName(filePath);
+                        imglstApps.Images.Add(icon);
+                        imgIndex = imglstApps.Images.Count - 1;
 
-                    lvwApps.Items.Add(s, imgIndex);
+                        lvwApps.Items.Add(s, imgIndex);
+                    }
                 }
             }
         }

@@ -46,6 +46,7 @@
             // 
             // lvwApps
             // 
+            this.lvwApps.LargeImageList = this.imglstApps;
             this.lvwApps.Location = new System.Drawing.Point(12, 57);
             this.lvwApps.Name = "lvwApps";
             this.lvwApps.Size = new System.Drawing.Size(235, 177);
@@ -54,8 +55,8 @@
             // 
             // imglstApps
             // 
-            this.imglstApps.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imglstApps.ImageSize = new System.Drawing.Size(16, 16);
+            this.imglstApps.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imglstApps.ImageSize = new System.Drawing.Size(32, 32);
             this.imglstApps.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // winrunr
