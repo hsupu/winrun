@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using Microsoft.Win32;
+using System.IO;
 
 namespace winrun
 {
@@ -33,12 +34,15 @@ namespace winrun
             {
                 RegistryKey regApp = regApps.OpenSubKey(s);
                 int imgIndex;
-
-                    Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(regApp.GetValue("").ToString());
+                string filePath = regApp.GetValue("").ToString();
+                if (File.Exists(filePath))
+                {
+                    Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);
                     imglstApps.Images.Add(icon);
                     imgIndex = imglstApps.Images.Count;
 
-                lvwApps.Items.Add(s, imgIndex);
+                    lvwApps.Items.Add(s, imgIndex);
+                }
             }
         }
     }
