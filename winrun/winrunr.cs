@@ -28,6 +28,8 @@ namespace winrun
 
         private void winrunr_Load(object sender, EventArgs e)
         {
+            imglstApps.Images.Add(GetSystemIcon.GetIconByFileName("com"));
+            //TODO 提取 rundll32 图标
         }
 
         private void btnReload_Click(object sender, EventArgs e)
@@ -42,17 +44,19 @@ namespace winrun
             {
                 regApp = regApps.OpenSubKey(s);
                 objRegValue = regApp.GetValue(null);
+                imgIndex = 0;
                 if (objRegValue is string) {
                     filePath = objRegValue.ToString();
                     if (File.Exists(filePath))
                     {
-                        icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);// GetSystemIcon.GetIconByFileName(filePath);
+                        icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);
+                        // icon = GetSystemIcon.GetIconByFileName(filePath);
                         imglstApps.Images.Add(icon);
                         imgIndex = imglstApps.Images.Count - 1;
 
-                        lvwApps.Items.Add(s, imgIndex);
                     }
                 }
+                lvwApps.Items.Add(s, imgIndex);
             }
         }
     }

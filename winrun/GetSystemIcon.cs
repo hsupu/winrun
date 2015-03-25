@@ -38,7 +38,7 @@ namespace winrun
         /// <param name="fileType">文件扩展名</param>  
         /// <param name="isLarge">是否返回大图标</param>  
         /// <returns></returns>  
-        public static Icon GetIconByFileType(string fileType, bool isLarge)
+        public static Icon GetIconByFileType(string fileType, bool isLarge = true)
         {
             if (fileType == null || fileType.Equals(string.Empty)) return null;
 
@@ -92,6 +92,7 @@ namespace winrun
             catch { }
             return resultIcon;
         }
+
     }
 
     /// <summary>  

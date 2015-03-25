@@ -49,7 +49,7 @@
             this.lvwApps.LargeImageList = this.imglstApps;
             this.lvwApps.Location = new System.Drawing.Point(12, 57);
             this.lvwApps.Name = "lvwApps";
-            this.lvwApps.Size = new System.Drawing.Size(235, 177);
+            this.lvwApps.Size = new System.Drawing.Size(560, 351);
             this.lvwApps.TabIndex = 1;
             this.lvwApps.UseCompatibleStateImageBehavior = false;
             // 
@@ -63,7 +63,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 261);
+            this.ClientSize = new System.Drawing.Size(584, 420);
             this.Controls.Add(this.lvwApps);
             this.Controls.Add(this.btnReload);
             this.Name = "winrunr";
