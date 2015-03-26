@@ -40,6 +40,7 @@
             this.mnuAppDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAdd = new System.Windows.Forms.Button();
             this.imglstReserved = new System.Windows.Forms.ImageList(this.components);
+            this.chkGlobal = new System.Windows.Forms.CheckBox();
             this.mnuApp.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,11 +131,23 @@
             this.imglstReserved.TransparentColor = System.Drawing.Color.Transparent;
             this.imglstReserved.Images.SetKeyName(0, "exe");
             // 
+            // chkGlobal
+            // 
+            this.chkGlobal.AutoSize = true;
+            this.chkGlobal.Location = new System.Drawing.Point(432, 501);
+            this.chkGlobal.Name = "chkGlobal";
+            this.chkGlobal.Size = new System.Drawing.Size(132, 16);
+            this.chkGlobal.TabIndex = 11;
+            this.chkGlobal.Text = "Show Global items.";
+            this.chkGlobal.UseVisualStyleBackColor = true;
+            this.chkGlobal.CheckedChanged += new System.EventHandler(this.chkGlobal_CheckedChanged);
+            // 
             // winrunr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 523);
+            this.Controls.Add(this.chkGlobal);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnHelp);
@@ -163,6 +176,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuAppDelete;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.ImageList imglstReserved;
+        private System.Windows.Forms.CheckBox chkGlobal;
     }
 }
 

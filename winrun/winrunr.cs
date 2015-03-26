@@ -14,14 +14,15 @@ using Microsoft.Win32;
 
 namespace winrun {
 
-    [RegistryPermissionAttribute(SecurityAction.Assert)]
+    // [RegistryPermissionAttribute(SecurityAction.Assert)]
     // [RegistryPermissionAttribute(SecurityAction.PermitOnly, Read = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths")]
     // [FileIOPermissionAttribute(SecurityAction.Assert)]
     // [SecurityPermissionAttribute(SecurityAction.Assert)]
     public partial class winrunr : Form {
-        RegistryKey regApps = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths");
+        RegistryKey regApps = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", true);
+        RegistryKey regAppsEx = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", true);
         RegistryKey regApp;
-        KeyValue[] kvs;
+        List<KeyValue> kvs = new List<KeyValue>();
 
         public winrunr() {
             InitializeComponent();
@@ -33,16 +34,26 @@ namespace winrun {
         }
 
         private void btnReload_Click(object sender, EventArgs e) {
-            string[] appNames = regApps.GetSubKeyNames();
+            checkRegistry(regApps, true);
+            if (chkGlobal.Checked) {
+                checkRegistry(regAppsEx, false, true);
+            }
+        }
+
+        public void checkRegistry(RegistryKey rk, bool cls = false, bool localMachine = false) {
+            string[] appNames = rk.GetSubKeyNames();
             int appCount = appNames.Count();
-            kvs = new KeyValue[appCount];
-            lvwApps.Items.Clear();
-            copyImageListByKey(imglstReserved, imglstApps);
+            if (cls) {
+                kvs.Clear();
+                lvwApps.Items.Clear();
+                copyImageListByKey(imglstReserved, imglstApps);
+            }
             Object regValue;
             for (int i = 0; i < appCount; i++) {
-                kvs[i] = new KeyValue();
+                kvs.Add(new KeyValue());
+                kvs[i].localMachine = localMachine;
                 kvs[i].key = appNames[i];
-                regApp = regApps.OpenSubKey(kvs[i].key);
+                regApp = rk.OpenSubKey(kvs[i].key);
                 regValue = regApp.GetValue(null);
                 if (regValue is string) {
                     kvs[i].value = regValue.ToString();
@@ -91,14 +102,20 @@ namespace winrun {
             int id = lvwApps.SelectedItems[0].Index;
             dlgSet dlg = new dlgSet(id, kvs[id]);
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) {
+                regApps.SetValue(dlg.kv.key, dlg.kv.value);
                 kvs[id] = dlg.kv;
                 setItem(kvs[id], id);
             }
         }
 
+        private void chkGlobal_CheckedChanged(object sender, EventArgs e) {
+            btnReload_Click(sender, e);
+        }
+
     }
 
     public class KeyValue {
+        public bool localMachine;
         public string key;
         public string value;
     }
