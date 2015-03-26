@@ -64,6 +64,8 @@
             this.lvwApps.Size = new System.Drawing.Size(552, 446);
             this.lvwApps.TabIndex = 1;
             this.lvwApps.UseCompatibleStateImageBehavior = false;
+            this.lvwApps.SelectedIndexChanged += new System.EventHandler(this.lvwApps_SelectedIndexChanged);
+            this.lvwApps.DoubleClick += new System.EventHandler(this.lvwApps_DoubleClick);
             this.lvwApps.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvwApps_MouseClick);
             // 
             // imglstApps
@@ -98,13 +100,13 @@
             this.mnuAppDelete});
             this.mnuApp.Name = "mnuApp";
             this.mnuApp.ShowImageMargin = false;
-            this.mnuApp.Size = new System.Drawing.Size(128, 70);
+            this.mnuApp.Size = new System.Drawing.Size(88, 48);
             // 
             // mnuAppEdit
             // 
             this.mnuAppEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuAppEdit.Name = "mnuAppEdit";
-            this.mnuAppEdit.Size = new System.Drawing.Size(127, 22);
+            this.mnuAppEdit.Size = new System.Drawing.Size(87, 22);
             this.mnuAppEdit.Text = "&edit";
             this.mnuAppEdit.Click += new System.EventHandler(this.mnuAppEdit_Click);
             // 
@@ -112,7 +114,7 @@
             // 
             this.mnuAppDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuAppDelete.Name = "mnuAppDelete";
-            this.mnuAppDelete.Size = new System.Drawing.Size(127, 22);
+            this.mnuAppDelete.Size = new System.Drawing.Size(87, 22);
             this.mnuAppDelete.Text = "&delete";
             this.mnuAppDelete.Click += new System.EventHandler(this.mnuAppDelete_Click);
             // 

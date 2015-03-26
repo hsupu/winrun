@@ -15,11 +15,8 @@ using Microsoft.Win32;
 namespace winrun {
 
     // [RegistryPermissionAttribute(SecurityAction.Assert)]
-    // [RegistryPermissionAttribute(SecurityAction.PermitOnly, Read = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths")]
-    // [FileIOPermissionAttribute(SecurityAction.Assert)]
-    // [SecurityPermissionAttribute(SecurityAction.Assert)]
     public partial class winrunr : Form {
-        RegistryKey regApps = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.FullControl);
+        RegistryKey regApps = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", true);
         RegistryKey regAppsEx = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.FullControl);
         RegistryKey regApp;
         List<KeyValue> kvs = new List<KeyValue>();
@@ -101,9 +98,8 @@ namespace winrun {
                 if (dlg.kv.localMachine) {
                     regApp = regAppsEx.CreateSubKey(dlg.kv.key, RegistryKeyPermissionCheck.ReadWriteSubTree);
                 } else {
-                    regApp = regApps.CreateSubKey(dlg.kv.key, RegistryKeyPermissionCheck.ReadWriteSubTree);
+                    regApp = regApps.CreateSubKey(dlg.kv.key);
                 }
-                System.Security.AccessControl.RegistrySecurity rs = regApp.GetAccessControl();
                 regApp.SetValue(null, dlg.kv.value);
                 kvs[id] = dlg.kv;
                 showItem(kvs[id], id);
@@ -114,9 +110,9 @@ namespace winrun {
             if (MessageBox.Show("You will NOT be able to restore after the operation,\nReally want to continue?", "!!!ATTENTION!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes) {
                 int id = lvwApps.SelectedItems[0].Index;
                 if (kvs[id].localMachine) {
-                    regAppsEx.DeleteSubKeyTree(kvs[id].key, false);
+                    regAppsEx.DeleteSubKey(kvs[id].key, false);
                 } else {
-                    regApps.DeleteSubKeyTree(kvs[id].key, false);
+                    regApps.DeleteSubKey(kvs[id].key, false);
                 }
                 lvwApps.Items.RemoveAt(id);
             }
@@ -129,11 +125,23 @@ namespace winrun {
         private void btnAdd_Click(object sender, EventArgs e) {
             dlgSet dlg = new dlgSet();
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) {
-                regApp = regApps.CreateSubKey(dlg.kv.key, RegistryKeyPermissionCheck.ReadWriteSubTree);
+                regApp = regApps.CreateSubKey(dlg.kv.key);
                 regApp.SetValue(null, dlg.kv.value);
                 kvs.Add(dlg.kv);
                 showItem(kvs.Last());
             }
+        }
+
+        private void lvwApps_SelectedIndexChanged(object sender, EventArgs e) {
+
+        }
+
+        private void lvwApps_DoubleClick(object sender, EventArgs e) {
+            int id = lvwApps.SelectedItems[0].Index;
+            string filePath = kvs[id].value;
+            System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo(filePath);
+            Info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+            System.Diagnostics.Process process = System.Diagnostics.Process.Start(Info);
         }
 
     }
