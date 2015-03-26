@@ -59,11 +59,15 @@ namespace winrun {
         }
 
         private void btnQuery_Click(object sender, EventArgs e) {
-            if (id != 0 || MessageBox.Show("操作执行后将无法还原，真的要继续吗？", "风险！！！", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
+            this.DialogResult = System.Windows.Forms.DialogResult.None;
+            if (txtKey.Text.Length == 0 || txtValue.Text.Length == 0) {
+                MessageBox.Show("Value is required.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (id != 0 || MessageBox.Show("You will NOT be able to restore after the operation,\nReally want to continue?", "!!!ATTENTION!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes) {
                 kv.key = txtKey.Text;
                 kv.value = txtValue.Text;
-            } else {
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
             }
         }
     }

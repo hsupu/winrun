@@ -159,7 +159,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "dlgSet";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "dlgSet";
+            this.Text = "winrun";
             this.Load += new System.EventHandler(this.dlgSet_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.dlgSet_Paint);
             this.ResumeLayout(false);

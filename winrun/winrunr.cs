@@ -111,7 +111,7 @@ namespace winrun {
         }
 
         private void mnuAppDelete_Click(object sender, EventArgs e) {
-            if (MessageBox.Show("操作执行后将无法还原，真的要继续吗？", "风险！！！", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
+            if (MessageBox.Show("You will NOT be able to restore after the operation,\nReally want to continue?", "!!!ATTENTION!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes) {
                 int id = lvwApps.SelectedItems[0].Index;
                 if (kvs[id].localMachine) {
                     regAppsEx.DeleteSubKeyTree(kvs[id].key, false);
