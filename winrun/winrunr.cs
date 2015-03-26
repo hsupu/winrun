@@ -19,8 +19,8 @@ namespace winrun {
     // [FileIOPermissionAttribute(SecurityAction.Assert)]
     // [SecurityPermissionAttribute(SecurityAction.Assert)]
     public partial class winrunr : Form {
-        RegistryKey regApps = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", true);
-        RegistryKey regAppsEx = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", true);
+        RegistryKey regApps = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.FullControl);
+        RegistryKey regAppsEx = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.FullControl);
         RegistryKey regApp;
         List<KeyValue> kvs = new List<KeyValue>();
 
@@ -51,14 +51,14 @@ namespace winrun {
             Object regValue;
             for (int i = 0; i < appCount; i++) {
                 kvs.Add(new KeyValue());
-                kvs[i].localMachine = localMachine;
-                kvs[i].key = appNames[i];
-                regApp = rk.OpenSubKey(kvs[i].key);
+                kvs.Last().localMachine = localMachine;
+                kvs.Last().key = appNames[i];
+                regApp = rk.OpenSubKey(kvs.Last().key);
                 regValue = regApp.GetValue(null);
                 if (regValue is string) {
-                    kvs[i].value = regValue.ToString();
+                    kvs.Last().value = regValue.ToString();
                 }
-                setItem(kvs[i]);
+                showItem(kvs.Last());
             }
         }
 
@@ -69,7 +69,7 @@ namespace winrun {
             }
         }
 
-        private void setItem(KeyValue kv, int id = 0) {
+        private void showItem(KeyValue kv, int id = -1) {
             int imgIndex = 0;
             string filePath = kv.value;
             if (File.Exists(filePath)) {
@@ -77,7 +77,7 @@ namespace winrun {
                 imglstApps.Images.Add(icon);
                 imgIndex = imglstApps.Images.Count - 1;
             }
-            if (id == 0) {
+            if (id == -1) {
                 lvwApps.Items.Add(kv.key, imgIndex);
             } else {
                 lvwApps.Items[id].Text = kv.key;
@@ -85,16 +85,12 @@ namespace winrun {
             }
         }
 
-        private void lvwApps_SelectedIndexChanged(object sender, EventArgs e) {
-            if (lvwApps.SelectedItems.Count != 0) {
-                ListViewItem i = lvwApps.SelectedItems[0];
-                System.Console.WriteLine(lvwApps.SelectedItems[0].Text);
-            }
-        }
-
         private void lvwApps_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
-                mnuApp.Show(lvwApps, e.Location);
+                int id = lvwApps.SelectedItems[0].Index;
+                if (!kvs[id].localMachine) {
+                    mnuApp.Show(lvwApps, e.Location);
+                }
             }
         }
 
@@ -102,14 +98,42 @@ namespace winrun {
             int id = lvwApps.SelectedItems[0].Index;
             dlgSet dlg = new dlgSet(id, kvs[id]);
             if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) {
-                regApps.SetValue(dlg.kv.key, dlg.kv.value);
+                if (dlg.kv.localMachine) {
+                    regApp = regAppsEx.CreateSubKey(dlg.kv.key, RegistryKeyPermissionCheck.ReadWriteSubTree);
+                } else {
+                    regApp = regApps.CreateSubKey(dlg.kv.key, RegistryKeyPermissionCheck.ReadWriteSubTree);
+                }
+                System.Security.AccessControl.RegistrySecurity rs = regApp.GetAccessControl();
+                regApp.SetValue(null, dlg.kv.value);
                 kvs[id] = dlg.kv;
-                setItem(kvs[id], id);
+                showItem(kvs[id], id);
+            }
+        }
+
+        private void mnuAppDelete_Click(object sender, EventArgs e) {
+            if (MessageBox.Show("操作执行后将无法还原，真的要继续吗？", "风险！！！", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
+                int id = lvwApps.SelectedItems[0].Index;
+                if (kvs[id].localMachine) {
+                    regAppsEx.DeleteSubKeyTree(kvs[id].key, false);
+                } else {
+                    regApps.DeleteSubKeyTree(kvs[id].key, false);
+                }
+                lvwApps.Items.RemoveAt(id);
             }
         }
 
         private void chkGlobal_CheckedChanged(object sender, EventArgs e) {
             btnReload_Click(sender, e);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e) {
+            dlgSet dlg = new dlgSet();
+            if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) {
+                regApp = regApps.CreateSubKey(dlg.kv.key, RegistryKeyPermissionCheck.ReadWriteSubTree);
+                regApp.SetValue(null, dlg.kv.value);
+                kvs.Add(dlg.kv);
+                showItem(kvs.Last());
+            }
         }
 
     }

@@ -61,10 +61,9 @@
             this.lvwApps.MultiSelect = false;
             this.lvwApps.Name = "lvwApps";
             this.lvwApps.ShowGroups = false;
-            this.lvwApps.Size = new System.Drawing.Size(552, 439);
+            this.lvwApps.Size = new System.Drawing.Size(552, 446);
             this.lvwApps.TabIndex = 1;
             this.lvwApps.UseCompatibleStateImageBehavior = false;
-            this.lvwApps.SelectedIndexChanged += new System.EventHandler(this.lvwApps_SelectedIndexChanged);
             this.lvwApps.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvwApps_MouseClick);
             // 
             // imglstApps
@@ -86,11 +85,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label1.Location = new System.Drawing.Point(10, 502);
+            this.label1.Location = new System.Drawing.Point(257, 510);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(347, 12);
+            this.label1.Size = new System.Drawing.Size(311, 12);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Tips: Right-click on the item you want to edit or delete.";
+            this.label1.Text = "Right-click on the item you want to edit or delete.";
             // 
             // mnuApp
             // 
@@ -99,13 +98,13 @@
             this.mnuAppDelete});
             this.mnuApp.Name = "mnuApp";
             this.mnuApp.ShowImageMargin = false;
-            this.mnuApp.Size = new System.Drawing.Size(88, 48);
+            this.mnuApp.Size = new System.Drawing.Size(128, 70);
             // 
             // mnuAppEdit
             // 
             this.mnuAppEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuAppEdit.Name = "mnuAppEdit";
-            this.mnuAppEdit.Size = new System.Drawing.Size(87, 22);
+            this.mnuAppEdit.Size = new System.Drawing.Size(127, 22);
             this.mnuAppEdit.Text = "&edit";
             this.mnuAppEdit.Click += new System.EventHandler(this.mnuAppEdit_Click);
             // 
@@ -113,8 +112,9 @@
             // 
             this.mnuAppDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuAppDelete.Name = "mnuAppDelete";
-            this.mnuAppDelete.Size = new System.Drawing.Size(87, 22);
+            this.mnuAppDelete.Size = new System.Drawing.Size(127, 22);
             this.mnuAppDelete.Text = "&delete";
+            this.mnuAppDelete.Click += new System.EventHandler(this.mnuAppDelete_Click);
             // 
             // btnAdd
             // 
@@ -124,6 +124,7 @@
             this.btnAdd.TabIndex = 10;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // imglstReserved
             // 
@@ -134,11 +135,11 @@
             // chkGlobal
             // 
             this.chkGlobal.AutoSize = true;
-            this.chkGlobal.Location = new System.Drawing.Point(432, 501);
+            this.chkGlobal.Location = new System.Drawing.Point(11, 509);
             this.chkGlobal.Name = "chkGlobal";
-            this.chkGlobal.Size = new System.Drawing.Size(132, 16);
+            this.chkGlobal.Size = new System.Drawing.Size(192, 16);
             this.chkGlobal.TabIndex = 11;
-            this.chkGlobal.Text = "Show Global items.";
+            this.chkGlobal.Text = "Show Global(read-only) items";
             this.chkGlobal.UseVisualStyleBackColor = true;
             this.chkGlobal.CheckedChanged += new System.EventHandler(this.chkGlobal_CheckedChanged);
             // 
@@ -146,7 +147,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 523);
+            this.ClientSize = new System.Drawing.Size(576, 537);
             this.Controls.Add(this.chkGlobal);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);

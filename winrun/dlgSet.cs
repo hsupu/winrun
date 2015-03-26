@@ -59,7 +59,7 @@ namespace winrun {
         }
 
         private void btnQuery_Click(object sender, EventArgs e) {
-            if (id != 0 || MessageBox.Show("修改后将无法还原，真的要继续吗？", "操作有风险", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
+            if (id != 0 || MessageBox.Show("操作执行后将无法还原，真的要继续吗？", "风险！！！", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
                 kv.key = txtKey.Text;
                 kv.value = txtValue.Text;
             } else {
