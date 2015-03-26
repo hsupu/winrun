@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using System.IO;
-using System.Runtime.InteropServices;
+// using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
 namespace winrun {
@@ -21,7 +21,7 @@ namespace winrun {
     public partial class winrunr : Form {
         RegistryKey regApps = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths");
         RegistryKey regApp;
-        KeyValue[] kv;
+        KeyValue[] kvs;
 
         public winrunr() {
             InitializeComponent();
@@ -35,29 +35,42 @@ namespace winrun {
         private void btnReload_Click(object sender, EventArgs e) {
             string[] appNames = regApps.GetSubKeyNames();
             int appCount = appNames.Count();
-            kv = new KeyValue[appCount];
-
-            int imgIndex;
+            kvs = new KeyValue[appCount];
+            lvwApps.Items.Clear();
+            copyImageListByKey(imglstReserved, imglstApps);
             Object regValue;
-            string filePath;
-            Icon icon;
             for (int i = 0; i < appCount; i++) {
-                kv[i] = new KeyValue();
-                kv[i].key = appNames[i];
-                imgIndex = 0;
-                regApp = regApps.OpenSubKey(kv[i].key);
+                kvs[i] = new KeyValue();
+                kvs[i].key = appNames[i];
+                regApp = regApps.OpenSubKey(kvs[i].key);
                 regValue = regApp.GetValue(null);
                 if (regValue is string) {
-                    kv[i].value = regValue.ToString();
-                    filePath = kv[i].value;
-                    if (File.Exists(filePath)) {
-                        icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);
-                        // icon = GetSystemIcon.GetIconByFileName(filePath);
-                        imglstApps.Images.Add(icon);
-                        imgIndex = imglstApps.Images.Count - 1;
-                    }
+                    kvs[i].value = regValue.ToString();
                 }
-                lvwApps.Items.Add(kv[i].key, imgIndex);
+                setItem(kvs[i]);
+            }
+        }
+
+        public void copyImageListByKey(ImageList src, ImageList dst) {
+            dst.Images.Clear();
+            foreach (string key in src.Images.Keys) {
+                dst.Images.Add(src.Images[src.Images.IndexOfKey(key)]);
+            }
+        }
+
+        private void setItem(KeyValue kv, int id = 0) {
+            int imgIndex = 0;
+            string filePath = kv.value;
+            if (File.Exists(filePath)) {
+                Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filePath);
+                imglstApps.Images.Add(icon);
+                imgIndex = imglstApps.Images.Count - 1;
+            }
+            if (id == 0) {
+                lvwApps.Items.Add(kv.key, imgIndex);
+            } else {
+                lvwApps.Items[id].Text = kv.key;
+                lvwApps.Items[id].ImageIndex = imgIndex;
             }
         }
 
@@ -75,8 +88,12 @@ namespace winrun {
         }
 
         private void mnuAppEdit_Click(object sender, EventArgs e) {
-            Form dlg = new dlgSet();
-            dlg.ShowDialog(this);
+            int id = lvwApps.SelectedItems[0].Index;
+            dlgSet dlg = new dlgSet(id, kvs[id]);
+            if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) {
+                kvs[id] = dlg.kv;
+                setItem(kvs[id], id);
+            }
         }
 
     }

@@ -39,6 +39,7 @@
             this.mnuAppEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAppDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.imglstReserved = new System.Windows.Forms.ImageList(this.components);
             this.mnuApp.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,9 +68,9 @@
             // 
             // imglstApps
             // 
-            this.imglstApps.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglstApps.ImageStream")));
+            this.imglstApps.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imglstApps.ImageSize = new System.Drawing.Size(32, 32);
             this.imglstApps.TransparentColor = System.Drawing.Color.Transparent;
-            this.imglstApps.Images.SetKeyName(0, "imageres.png");
             // 
             // btnHelp
             // 
@@ -123,6 +124,12 @@
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             // 
+            // imglstReserved
+            // 
+            this.imglstReserved.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglstReserved.ImageStream")));
+            this.imglstReserved.TransparentColor = System.Drawing.Color.Transparent;
+            this.imglstReserved.Images.SetKeyName(0, "exe");
+            // 
             // winrunr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -155,6 +162,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuAppEdit;
         private System.Windows.Forms.ToolStripMenuItem mnuAppDelete;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.ImageList imglstReserved;
     }
 }
 
