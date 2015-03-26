@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dlgSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dlgSet.Designer.cs">
+      <DependentUpon>dlgSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="GetSystemIcon.cs" />
     <Compile Include="winrunr.cs">
       <SubType>Form</SubType>
@@ -66,6 +72,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="dlgSet.resx">
+      <DependentUpon>dlgSet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="winrunr.resx">
       <DependentUpon>winrunr.cs</DependentUpon>
     </EmbeddedResource>
