@@ -26,7 +26,7 @@ namespace winrun {
         }
 
         private void winrunr_Load(object sender, EventArgs e) {
-            //  this.Text += Application.ProductVersion;
+            // this.Text += Application.ProductVersion;
             btnReload_Click(sender, e);
         }
 

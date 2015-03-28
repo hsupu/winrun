@@ -64,6 +64,12 @@
       <DependentUpon>dlgSet.cs</DependentUpon>
     </Compile>
     <Compile Include="GetSystemIcon.cs" />
+    <Compile Include="winrarf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winrarf.Designer.cs">
+      <DependentUpon>winrarf.cs</DependentUpon>
+    </Compile>
     <Compile Include="winrunr.cs">
       <SubType>Form</SubType>
     </Compile>
