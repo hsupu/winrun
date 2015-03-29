@@ -63,6 +63,12 @@
     <Compile Include="dlgSet.Designer.cs">
       <DependentUpon>dlgSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHelp.Designer.cs">
+      <DependentUpon>frmHelp.cs</DependentUpon>
+    </Compile>
     <Compile Include="GetSystemIcon.cs" />
     <Compile Include="winrarf.cs">
       <SubType>Form</SubType>
@@ -80,6 +86,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="dlgSet.resx">
       <DependentUpon>dlgSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHelp.resx">
+      <DependentUpon>frmHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="winrunr.resx">
       <DependentUpon>winrunr.cs</DependentUpon>
